@@ -1,8 +1,12 @@
 
 
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:virthink/colors.dart';
 import 'package:virthink/disease.dart';
+
+import 'apiModelClass.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -30,7 +34,7 @@ class _HomeState extends State<Home> {
          ),
       ),
         backgroundColor: Colors.white,
-        body:Column(
+        body: responses.data == null ? Text("hghg"): Column(
 
           children: [
 
@@ -64,26 +68,27 @@ class _HomeState extends State<Home> {
 
             ListView.builder(
               shrinkWrap: true,
-              itemCount: homeArr.length,
+              itemCount: responses.data!.length,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (Context) => Diseases(homeArr[index])));
+
+                    Navigator.push(context, MaterialPageRoute(builder: (Context) => Diseases(responses.data![index].toString())));
                   },
                   child: Container(
                     height: 50,
 
 
-                    margin: EdgeInsets.fromLTRB(55, 15, 55, 15),
+                    margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
 
                     child: Center(
-                      child: Text(homeArr[index], textAlign: TextAlign.center, style: TextStyle(
+                      child: Text(responses.data![index].headingPunjabi.toString(), textAlign: TextAlign.center, style: TextStyle(
                           fontSize: 18,
                         color: Colors.white
                       ),),
                     ),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      color: colorResource.primaryColor ,
                       borderRadius: BorderRadius.circular(30)
                     ),
 
@@ -108,37 +113,23 @@ class _HomeState extends State<Home> {
     // Important: Remove any padding from the ListView.
     padding: EdgeInsets.zero,
       children: [
-        Flexible(
-          child: DrawerHeader(
 
-    decoration: BoxDecoration(
-    ),
-     child: Column(
-       crossAxisAlignment: CrossAxisAlignment.start,
-       children: [
-         SizedBox(
+        Container(
+            margin: EdgeInsets.fromLTRB(20, 40, 60, 40),
 
-           height: 70,
-           child:  Image.asset('assets/drawerHeaderAvatar.png', alignment: Alignment.centerLeft,),
-         ),
-         Text("Hi, Yash Mahrotra", textAlign: TextAlign.left, style: TextStyle(
-           color:Theme.of(context).primaryColor,
-           fontWeight: FontWeight.bold,
-           fontSize: 30
-         ), )
-       ],
-     ),
 
-   ),
+          child:  Image.asset('assets/virthink.png', alignment: Alignment.centerLeft,),
         ),
         ListTile(
-          title: const Text('Home'),
+          title: const Text('Home',  style: TextStyle(
+             fontSize: 18
+          ),),
 
           leading: IconButton(
             onPressed: (){
 
             },
-            icon: Image.asset('assets/homeIcon.png'),
+            icon: Image.asset('assets/home (3).png', ),
           ),
           onTap: () {
             // Update the state of the app.
@@ -146,12 +137,14 @@ class _HomeState extends State<Home> {
           },
         ),
         ListTile(
-          title: const Text('About Us'),
+          title: const Text('About Us',style: TextStyle(
+    fontSize: 18
+    ),),
           leading: IconButton(
             onPressed: (){
 
             },
-            icon: Image.asset('assets/homeIcon.png'),
+            icon: Image.asset('assets/team.png'),
           ),
           onTap: () {
             // Update the state of the app.
@@ -159,12 +152,14 @@ class _HomeState extends State<Home> {
           },
         ),
         ListTile(
-          title: const Text('Contact Us'),
+          title: const Text('Contact Us',style: TextStyle(
+    fontSize: 18
+    ),),
           leading: IconButton(
             onPressed: (){
 
             },
-            icon: Image.asset('assets/homeIcon.png'),
+            icon: Image.asset('assets/support.png'),
           ),
           onTap: () {
             // Update the state of the app.
@@ -172,12 +167,14 @@ class _HomeState extends State<Home> {
           },
         ),
         ListTile(
-          title: const Text('Terms & Conditions'),
+          title: const Text('Terms & Conditions',style: TextStyle(
+    fontSize: 18
+    ),),
           leading: IconButton(
             onPressed: (){
 
             },
-            icon: Image.asset('assets/homeIcon.png'),
+            icon: Image.asset('assets/terms-and-conditions.png'),
           ),
           onTap: () {
             // Update the state of the app.
@@ -185,12 +182,14 @@ class _HomeState extends State<Home> {
           },
         ),
         ListTile(
-          title: const Text('Privacy Policy'),
+          title: const Text('Privacy Policy',style: TextStyle(
+    fontSize: 18
+    ),),
           leading: IconButton(
             onPressed: (){
 
             },
-            icon: Image.asset('assets/homeIcon.png'),
+            icon: Image.asset('assets/privacy-policy (1).png'),
           ),
 
           onTap: () {
@@ -199,12 +198,14 @@ class _HomeState extends State<Home> {
           },
         ),
         ListTile(
-          title: const Text('FAQ'),
+          title: const Text('FAQ',style: TextStyle(
+    fontSize: 18
+    ),),
           leading: IconButton(
             onPressed: (){
 
             },
-            icon: Image.asset('assets/homeIcon.png'),
+            icon: Image.asset('assets/faq.png'),
           ),
           onTap: () {
             // Update the state of the app.
@@ -222,7 +223,29 @@ class _HomeState extends State<Home> {
 
   }
 
-   List<String> homeArr =[ "Medical", "Education", "Category 1", "Category 2"];
 
 
+
+@override
+  void initState() {
+    super.initState();
+
+    getData();
+
+  }
+
+  late Autogenerated responses = Autogenerated();
+  var dio = Dio();
+
+   getData() async {
+
+
+    var response = await dio.get('http://ranasodhi.frantic.in/RestApi/fetch_blogs');
+    setState(() {
+      responses = Autogenerated.fromJson(response.data);
+    });
+
+
+
+  }
 }

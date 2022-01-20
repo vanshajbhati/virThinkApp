@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virthink/colors.dart';
 
 import 'information.dart';
 
@@ -36,22 +37,31 @@ class _DiseasesState extends State<Diseases> {
 
           Container(
             height: 40,
-              width: 300,
 
-              margin: EdgeInsets.fromLTRB(40, 40, 40, 30),
+              padding: EdgeInsets.only(left: 10),
+
+              margin: EdgeInsets.fromLTRB(35, 40, 35, 30),
             decoration: BoxDecoration(
-                color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+              boxShadow: [ BoxShadow(
+                color: Colors.grey,
+                blurRadius: 5.0,
+              )],
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
 
             child: TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    /* Clear the search field */
-                  },
+
+                suffixIcon: Container(
+
+                  margin: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                       color: colorResource.primaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(Icons.search
+                ,color: Colors.white,  ),
                 ),
-                hintText: 'Search...',
+                hintText: ' Search... here........',
                 border: InputBorder.none),
               onChanged: onTextChanged,
             ),
@@ -70,12 +80,12 @@ class _DiseasesState extends State<Diseases> {
                   },
                   child: Container(
                     height: 50,
-                    margin: EdgeInsets.fromLTRB(55, 07, 55, 07),
+                    margin: EdgeInsets.fromLTRB(28, 15, 28, 15),
 
                     child: Center(
                       child: Text(newDiseaseArr[index], textAlign: TextAlign.center, style: TextStyle(
                           fontSize: 18,
-                          color: Theme.of(context).primaryColor
+                          color: colorResource.primaryColor
                       ),),
                     ),
                     decoration: BoxDecoration(

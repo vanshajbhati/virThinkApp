@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:virthink/colors.dart';
 
 class Information extends StatefulWidget {
   const Information({Key? key}) : super(key: key);
@@ -31,6 +32,7 @@ class _InformationState extends State<Information> {
 
 
             ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: infoArr.length,
               itemBuilder: (BuildContext context, int index) {
@@ -48,7 +50,7 @@ class _InformationState extends State<Information> {
                         height: 50,
 
 
-                        margin: EdgeInsets.fromLTRB(55, 15, 45, 00),
+                        margin: EdgeInsets.fromLTRB(25, 15, 25, 00),
 
                         child: Center(
                           child: Text(infoArr[index], textAlign: TextAlign.center, style: TextStyle(
@@ -57,7 +59,7 @@ class _InformationState extends State<Information> {
                           ),),
                         ),
                         decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
+                            color: colorResource.primaryColor,
                             borderRadius: BorderRadius.circular(30)
                         ),
 
@@ -73,8 +75,9 @@ class _InformationState extends State<Information> {
 
 
                        expanded: Container(
+                         padding: EdgeInsets.all(5),
 
-                         margin: EdgeInsets.fromLTRB(75, 00, 75, 15),
+                         margin: EdgeInsets.fromLTRB(45, 00, 45, 15),
                          decoration: BoxDecoration(
                            border: Border.all(),
 
