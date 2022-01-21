@@ -1,19 +1,24 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:virthink/colors.dart';
+import 'package:virthink/fetchSubCategory.dart';
 
+import 'apiModelClass.dart';
 import 'information.dart';
 
 class Diseases extends StatefulWidget {
-  final String name;
+  final String mainId;
 
 
-  Diseases(this.name);
+  Diseases(this.mainId);
 
   @override
   _DiseasesState createState() => _DiseasesState();
 }
 
 class _DiseasesState extends State<Diseases> {
+
+
 
 
   @override
@@ -75,7 +80,7 @@ class _DiseasesState extends State<Diseases> {
                 return InkWell(
                   onTap: (){
 
-                    Navigator.push(context, MaterialPageRoute(builder: (Context) => Information()));
+                    Navigator.push(context, MaterialPageRoute(builder: (Context) => Information(responsesSub.data![index].id.toString())));
 
                   },
                   child: Container(
@@ -123,7 +128,10 @@ class _DiseasesState extends State<Diseases> {
     );
   }
 
-  List<String> mainDiseaseArr =[ "Maleria", "Dengue", "Viral Fiver", "Chicken Pox","Maleria", "Dengue", "Viral Fiver", "Chicken Pox","Maleria", "Dengue", "Viral Fiver", "Chicken Pox", ];
+
+
+  List<String> mainDiseaseArr =[];
+
 
   List<String> newDiseaseArr =[];
 
@@ -133,6 +141,7 @@ class _DiseasesState extends State<Diseases> {
     // TODO: implement initState
     super.initState();
 
+    getData();
     newDiseaseArr = mainDiseaseArr;
 
   }
@@ -146,5 +155,31 @@ class _DiseasesState extends State<Diseases> {
     });
   }
 
+
+
+
+
+  late FetchSubCategory responsesSub = FetchSubCategory();
+  var dio = Dio();
+
+  getData() async {
+
+    print('http://virthink.frantic.in/RestApi/fetch_sub_category/'+widget.mainId);
+    var responseSub = await dio.get('http://virthink.frantic.in/RestApi/fetch_sub_category/'+widget.mainId);
+    setState(() {
+      responsesSub = FetchSubCategory.fromJson(responseSub.data);
+    });
+
+
+     print(responsesSub.data![1].name);
+
+    for(int i=0; i<responsesSub.data!.length; i++) {
+      mainDiseaseArr.add(responsesSub.data![i].name.toString());
+    }
+
+
+    print(mainDiseaseArr[1]);
+
+  }
 
 }

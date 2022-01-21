@@ -1,9 +1,21 @@
+import 'dart:convert';
+
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:virthink/colors.dart';
+import 'package:virthink/fetchProduct.dart';
+
+import 'decodeImageJson.dart';
 
 class Information extends StatefulWidget {
-  const Information({Key? key}) : super(key: key);
+
+
+  final String subId;
+
+
+  Information(this.subId);
 
   @override
   _InformationState createState() => _InformationState();
@@ -36,6 +48,14 @@ class _InformationState extends State<Information> {
               shrinkWrap: true,
               itemCount: infoArr.length,
               itemBuilder: (BuildContext context, int index) {
+
+                var data = jsonDecode(responsesProduct.data![index].images.toString());
+
+              final List<String> imageUrl = [];
+
+                 imageUrl.add(data[0]['name'].toString());
+                imageUrl.add(data[1]['name'].toString());
+                print(data[0]['name'].toString());
                 return InkWell(
                   onTap: (){
 
@@ -95,9 +115,24 @@ class _InformationState extends State<Information> {
                              ),
 
                              Padding(padding: EdgeInsets.fromLTRB(00, 10, 00, 10)),
-                             Text("SUB HEADING", style: TextStyle(
-                               color: Colors.grey
-                             ),),
+
+                    Container(
+                      child: CarouselSlider(
+
+                       options: CarouselOptions(
+                         enlargeCenterPage: true,
+                         autoPlay: true
+                       ),
+
+                        items: imageUrl
+                            .map((item) => Container(
+                          child: Center(child: Image.network("https://virthink.frantic.in/"+item.toString())),
+                          color: Colors.green,
+                        ))
+                            .toList(),
+
+                    ),),
+
 
                              Padding(padding: EdgeInsets.fromLTRB(00, 10, 00, 10)),
                              Text("Malaria is a life-threatening disease caused by parasites that are transmitted to people through the bites of infected female Anopheles mosquitoes. It is preventable and curable. In 2020, there were an estimated 241 million cases of malaria worldwide. ",),
@@ -150,6 +185,52 @@ class _InformationState extends State<Information> {
 
   }
 
-  List<String> infoArr =[ "Precautions", "Causes", "Symptoms", "Loream"];
+
+
+
+  List<String> infoArr =[ ];
+
+  late FetchProduct responsesProduct = FetchProduct();
+  var dio = Dio();
+
+  getData() async {
+
+    print('http://virthink.frantic.in/RestApi/fetch_products/'+widget.subId);
+    var responseSub = await dio.get('http://virthink.frantic.in/RestApi/fetch_products/'+widget.subId);
+    setState(() {
+      responsesProduct = FetchProduct.fromJson(responseSub.data);
+    });
+
+
+
+
+
+    for(int i=0; i<responsesProduct.data!.length; i++) {
+            infoArr.add(responsesProduct.data![i].name.toString());
+
+
+    }
+
+
+
+
+
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getData();
+
+
+
+
+
+
+  }
+
 }
 
