@@ -4,7 +4,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:virthink/colors.dart';
+import 'package:virthink/customerSupport.dart';
 import 'package:virthink/disease.dart';
+import 'package:virthink/terms&Conditions.dart';
 
 import 'apiModelClass.dart';
 
@@ -95,6 +97,7 @@ class _HomeState extends State<Home> {
 
 
 
+
                     ),
                 );
 
@@ -142,13 +145,13 @@ class _HomeState extends State<Home> {
     ),),
           leading: IconButton(
             onPressed: (){
-
+              Navigator.push(context, MaterialPageRoute(builder: (Context) => TermsCondition()));
             },
             icon: Image.asset('assets/team.png'),
           ),
           onTap: () {
             // Update the state of the app.
-            // ...
+            Navigator.push(context, MaterialPageRoute(builder: (Context) => TermsCondition()));
           },
         ),
         ListTile(
@@ -163,7 +166,7 @@ class _HomeState extends State<Home> {
           ),
           onTap: () {
             // Update the state of the app.
-            // ...
+            Navigator.push(context, MaterialPageRoute(builder: (Context)=> CustomerSupport()));
           },
         ),
         ListTile(
@@ -172,13 +175,13 @@ class _HomeState extends State<Home> {
     ),),
           leading: IconButton(
             onPressed: (){
-
+              Navigator.push(context, MaterialPageRoute(builder: (Context) => TermsCondition()));
             },
             icon: Image.asset('assets/terms-and-conditions.png'),
           ),
           onTap: () {
             // Update the state of the app.
-            // ...
+            Navigator.push(context, MaterialPageRoute(builder: (Context) => TermsCondition()));
           },
         ),
         ListTile(
@@ -187,14 +190,14 @@ class _HomeState extends State<Home> {
     ),),
           leading: IconButton(
             onPressed: (){
-
+              Navigator.push(context, MaterialPageRoute(builder: (Context) => TermsCondition()));
             },
             icon: Image.asset('assets/privacy-policy (1).png'),
           ),
 
           onTap: () {
             // Update the state of the app.
-            // ...
+            Navigator.push(context, MaterialPageRoute(builder: (Context) => TermsCondition()));
           },
         ),
         ListTile(

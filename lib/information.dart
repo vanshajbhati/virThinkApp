@@ -224,12 +224,7 @@ class _InformationState extends State<Information> {
     super.initState();
 
     getData();
-
-
-
-
-
-
+    
   }
 
 }
